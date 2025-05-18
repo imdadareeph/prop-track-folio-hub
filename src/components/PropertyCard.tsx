@@ -1,5 +1,6 @@
-
-import { Property } from "../types";
+import { Property } from "@/types";
+import { Building, MapPin } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 
 interface PropertyCardProps {
@@ -7,6 +8,13 @@ interface PropertyCardProps {
 }
 
 const PropertyCard = ({ property }: PropertyCardProps) => {
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-AE', {
+      style: 'currency',
+      currency: 'AED',
+    }).format(amount);
+  };
+
   const getStatusBadgeClass = (status: string) => {
     switch (status) {
       case "rented":
@@ -18,14 +26,6 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
       default:
         return "";
     }
-  };
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 0
-    }).format(amount);
   };
 
   return (

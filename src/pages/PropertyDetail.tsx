@@ -1,14 +1,14 @@
-
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { getPropertyById, getPropertyPayments } from "@/data/mockData";
 import PageHeader from "@/components/PageHeader";
+import { Building, Calendar, Banknote, MapPin, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import PaymentCard from "@/components/PaymentCard";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { format, parseISO } from "date-fns";
+import PropertyCard from "@/components/PropertyCard";
 import MediaCard from "@/components/MediaCard";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Building, Calendar, Edit, MapPin, Ruler } from "lucide-react";
-import { format } from "date-fns";
+import PaymentCard from "@/components/PaymentCard";
 
 const PropertyDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -39,7 +39,7 @@ const PropertyDetail = () => {
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return "N/A";
-    return format(new Date(dateString), "MMMM d, yyyy");
+    return format(parseISO(dateString), "MMMM d, yyyy");
   };
 
   const getStatusBadgeClass = (status: string) => {

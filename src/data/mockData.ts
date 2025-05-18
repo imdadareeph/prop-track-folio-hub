@@ -1,4 +1,3 @@
-
 import { Property, Payment, DashboardSummary, UserSettings } from "../types";
 
 export const mockProperties: Property[] = [
@@ -180,32 +179,32 @@ export const mockPayments: Payment[] = [
   }
 ];
 
-export const mockDashboardData: DashboardSummary = {
+export const mockDashboardSummary: DashboardSummary = {
   totalProperties: 3,
   rentedProperties: 0,
   ownedProperties: 2,
   constructionProperties: 1,
-  totalExpenses: 60350,
+  totalExpenses: 52000,
   totalRentIncome: 0,
-  upcomingPayments: mockPayments.filter(p => p.status === "upcoming"),
+  upcomingPayments: [],
   monthlyExpenseBreakdown: {
     rent: 0,
-    emi: 38400,
-    maintenance: 1800,
-    tax: 1200,
-    society: 900,
-    utility: 650,
-    other: 50000
+    emi: 30500,
+    maintenance: 2200,
+    tax: 12000,
+    society: 0,
+    utility: 0,
+    other: 300000
   }
 };
 
 export const mockUserSettings: UserSettings = {
   name: "Ahmed Al Mansoor",
-  email: "ahmed.mansoor@example.com",
+  email: "ahmed@example.com",
   currency: "AED",
   darkMode: false,
   notificationsEnabled: true,
-  reminderDays: 3
+  reminderDays: 7
 };
 
 export const getPropertyById = (id: string): Property | undefined => {

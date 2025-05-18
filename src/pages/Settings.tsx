@@ -10,17 +10,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Bell, Download, Moon, Upload, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { useTheme } from "@/components/ThemeProvider";
 
 const Settings = () => {
   const [settings, setSettings] = useState({ ...mockUserSettings });
   const { toast } = useToast();
+  const { theme, setTheme } = useTheme();
 
   const currencies = [
+    { value: "AED", label: "UAE Dirham (AED)" },
     { value: "USD", label: "US Dollar ($)" },
     { value: "EUR", label: "Euro (€)" },
     { value: "GBP", label: "British Pound (£)" },
     { value: "INR", label: "Indian Rupee (₹)" },
-    { value: "AUD", label: "Australian Dollar (A$)" }
   ];
 
   const handleSaveSettings = () => {
@@ -104,16 +107,14 @@ const Settings = () => {
                   <h4 className="font-medium">Dark Mode</h4>
                   <p className="text-sm text-slate-500">Toggle dark theme</p>
                 </div>
-                <Switch 
-                  checked={settings.darkMode} 
-                  onCheckedChange={(checked) => setSettings({...settings, darkMode: checked})}
-                />
+                <ThemeToggle />
               </div>
 
               <div className="grid gap-2">
                 <Label htmlFor="currency">Currency</Label>
                 <Select 
                   value={settings.currency} 
+                  defaultValue="AED"
                   onValueChange={(currency) => setSettings({...settings, currency})}
                 >
                   <SelectTrigger id="currency">

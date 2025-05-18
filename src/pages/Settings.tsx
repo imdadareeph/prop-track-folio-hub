@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { mockUserSettings } from "@/data/mockData";
 import PageHeader from "@/components/PageHeader";
@@ -7,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bell, Download, Moon, Upload, User } from "lucide-react";
+import { Bell, Download, Moon, Sun, Upload, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "@/components/ThemeProvider";

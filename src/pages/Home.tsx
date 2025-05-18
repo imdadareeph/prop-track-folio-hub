@@ -1,4 +1,3 @@
-
 import PageHeader from "@/components/PageHeader";
 import StatsCard from "@/components/StatsCard";
 import ChartCard from "@/components/ChartCard";
@@ -6,6 +5,7 @@ import PaymentCard from "@/components/PaymentCard";
 import { Button } from "@/components/ui/button";
 import { Building, DollarSign, TrendingUp, Plus } from "lucide-react";
 import { mockDashboardSummary, mockPayments } from "@/data/mockData";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const Home = () => {
   // Format currency
@@ -41,9 +41,12 @@ const Home = () => {
         title="Property Dashboard" 
         subtitle="Welcome back! Here's an overview of your properties."
         rightElement={
-          <Button size="sm" className="flex items-center gap-1">
-            <Plus className="h-4 w-4" /> Add Property
-          </Button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Button size="sm" className="flex items-center gap-1">
+              <Plus className="h-4 w-4" /> Add Property
+            </Button>
+          </div>
         }
       />
 

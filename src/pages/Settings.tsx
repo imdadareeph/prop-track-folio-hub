@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { mockUserSettings } from "@/data/mockData";
 import PageHeader from "@/components/PageHeader";
@@ -52,6 +51,7 @@ const Settings = () => {
       <PageHeader 
         title="Settings" 
         subtitle="Manage your account and preferences"
+        rightElement={<ThemeToggle />}
       />
 
       <div className="grid gap-6">
@@ -105,9 +105,22 @@ const Settings = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <h4 className="font-medium">Dark Mode</h4>
-                  <p className="text-sm text-slate-500">Toggle dark theme</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">Toggle dark theme</p>
                 </div>
-                <ThemeToggle />
+                <div className="flex items-center gap-2">
+                  <span className="text-sm">{theme === "dark" ? "On" : "Off"}</span>
+                  <Button 
+                    variant="outline" 
+                    size="icon"
+                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  >
+                    {theme === "dark" ? (
+                      <Moon className="h-5 w-5" />
+                    ) : (
+                      <Sun className="h-5 w-5" />
+                    )}
+                  </Button>
+                </div>
               </div>
 
               <div className="grid gap-2">

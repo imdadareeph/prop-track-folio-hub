@@ -14,6 +14,8 @@ import Gallery from "./pages/Gallery";
 import Settings from "./pages/Settings";
 import PropertyDetail from "./pages/PropertyDetail";
 import NotFound from "./pages/NotFound";
+import AddProperty from "./pages/AddProperty";
+import AddPayment from "./pages/AddPayment";
 
 const queryClient = new QueryClient();
 
@@ -27,8 +29,10 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/property" element={<Property />} />
+            <Route path="/property/add" element={<AddProperty />} />
             <Route path="/property/:id" element={<PropertyDetail />} />
             <Route path="/payment" element={<Payment />} />
+            <Route path="/payment/add" element={<AddPayment />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="*" element={<NotFound />} />

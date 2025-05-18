@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { mockProperties } from "@/data/mockData";
 import PageHeader from "@/components/PageHeader";
 import PropertyCard from "@/components/PropertyCard";
@@ -11,6 +12,7 @@ import { Plus, Search } from "lucide-react";
 const Property = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const navigate = useNavigate();
 
   const filteredProperties = mockProperties.filter(property => {
     // Apply search filter
@@ -35,7 +37,11 @@ const Property = () => {
         title="My Properties" 
         subtitle="Manage your properties"
         rightElement={
-          <Button size="sm" className="flex items-center gap-1">
+          <Button 
+            size="sm" 
+            className="flex items-center gap-1"
+            onClick={() => navigate("/property/add")}
+          >
             <Plus className="h-4 w-4" /> Add Property
           </Button>
         }

@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { mockPayments, mockProperties } from "@/data/mockData";
 import PageHeader from "@/components/PageHeader";
 import PaymentCard from "@/components/PaymentCard";
@@ -11,6 +12,7 @@ import { Plus } from "lucide-react";
 const Payment = () => {
   const [propertyFilter, setPropertyFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
+  const navigate = useNavigate();
 
   const filteredPayments = mockPayments.filter(payment => {
     // Apply property filter
@@ -28,7 +30,11 @@ const Payment = () => {
         title="Payments" 
         subtitle="Manage your property payments"
         rightElement={
-          <Button size="sm" className="flex items-center gap-1">
+          <Button 
+            size="sm" 
+            className="flex items-center gap-1"
+            onClick={() => navigate("/payment/add")}
+          >
             <Plus className="h-4 w-4" /> Add Payment
           </Button>
         }

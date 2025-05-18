@@ -1,3 +1,4 @@
+
 import { Property, Payment, DashboardSummary, UserSettings } from "../types";
 
 export const mockProperties: Property[] = [
@@ -186,7 +187,40 @@ export const mockDashboardSummary: DashboardSummary = {
   constructionProperties: 1,
   totalExpenses: 52000,
   totalRentIncome: 0,
-  upcomingPayments: [],
+  upcomingPayments: [
+    {
+      id: "pay-2",
+      propertyId: "prop-1",
+      amount: 8500,
+      type: "emi",
+      status: "upcoming",
+      dueDate: "2023-05-01",
+      recurring: true,
+      frequency: "monthly",
+      notes: "May mortgage payment"
+    },
+    {
+      id: "pay-4",
+      propertyId: "prop-2",
+      amount: 22000,
+      type: "emi",
+      status: "upcoming",
+      dueDate: "2023-05-10",
+      recurring: true,
+      frequency: "monthly",
+      notes: "May mortgage payment"
+    },
+    {
+      id: "pay-6",
+      propertyId: "prop-3",
+      amount: 300000,
+      type: "other",
+      status: "upcoming",
+      dueDate: "2023-06-30",
+      recurring: false,
+      notes: "Construction milestone payment"
+    }
+  ],
   monthlyExpenseBreakdown: {
     rent: 0,
     emi: 30500,

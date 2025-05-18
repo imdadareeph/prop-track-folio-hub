@@ -5,33 +5,33 @@ import ChartCard from "@/components/ChartCard";
 import PaymentCard from "@/components/PaymentCard";
 import { Button } from "@/components/ui/button";
 import { Building, DollarSign, TrendingUp, Plus } from "lucide-react";
-import { mockDashboardData, mockPayments } from "@/data/mockData";
+import { mockDashboardSummary, mockPayments } from "@/data/mockData";
 
 const Home = () => {
   // Format currency
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-AE', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'AED',
       maximumFractionDigits: 0
     }).format(amount);
   };
 
   // Prepare chart data for expenses by category
-  const expenseData = Object.entries(mockDashboardData.monthlyExpenseBreakdown).map(([key, value]) => ({
+  const expenseData = Object.entries(mockDashboardSummary.monthlyExpenseBreakdown).map(([key, value]) => ({
     name: key.charAt(0).toUpperCase() + key.slice(1),
     value: value
   }));
 
   // Prepare property status data for pie chart
   const propertyStatusData = [
-    { name: 'Rented', value: mockDashboardData.rentedProperties },
-    { name: 'Owned', value: mockDashboardData.ownedProperties },
-    { name: 'Construction', value: mockDashboardData.constructionProperties }
+    { name: 'Rented', value: mockDashboardSummary.rentedProperties },
+    { name: 'Owned', value: mockDashboardSummary.ownedProperties },
+    { name: 'Construction', value: mockDashboardSummary.constructionProperties }
   ];
 
   // Get upcoming payments sorted by due date
-  const upcomingPayments = [...mockDashboardData.upcomingPayments]
+  const upcomingPayments = [...mockDashboardSummary.upcomingPayments]
     .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())
     .slice(0, 3);
 
@@ -50,17 +50,17 @@ const Home = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <StatsCard 
           title="Total Properties" 
-          value={mockDashboardData.totalProperties}
+          value={mockDashboardSummary.totalProperties}
           icon={<Building className="h-5 w-5 text-propertyBlue" />}
         />
         <StatsCard 
           title="Total Expenses" 
-          value={formatCurrency(mockDashboardData.totalExpenses)}
+          value={formatCurrency(mockDashboardSummary.totalExpenses)}
           icon={<DollarSign className="h-5 w-5 text-propertyRed" />}
         />
         <StatsCard 
           title="Rent Income" 
-          value={formatCurrency(mockDashboardData.totalRentIncome)}
+          value={formatCurrency(mockDashboardSummary.totalRentIncome)}
           icon={<TrendingUp className="h-5 w-5 text-propertyGreen" />}
           change={{ value: 5.2, positive: true }}
           footer="Monthly recurring"

@@ -1,7 +1,8 @@
+
 import { useParams, Link } from "react-router-dom";
 import { getPropertyById, getPropertyPayments } from "@/data/mockData";
 import PageHeader from "@/components/PageHeader";
-import { Building, Calendar, Banknote, MapPin, ArrowLeft } from "lucide-react";
+import { Building, Calendar, Banknote, MapPin, ArrowLeft, Plus, Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +10,7 @@ import { format, parseISO } from "date-fns";
 import PropertyCard from "@/components/PropertyCard";
 import MediaCard from "@/components/MediaCard";
 import PaymentCard from "@/components/PaymentCard";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 const PropertyDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -30,9 +32,9 @@ const PropertyDetail = () => {
   }
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-AE', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'AED',
       maximumFractionDigits: 0
     }).format(amount);
   };

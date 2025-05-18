@@ -1,9 +1,18 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
+import TabBar from "./components/TabBar";
+
+// Pages
+import Home from "./pages/Home";
+import Property from "./pages/Property";
+import Payment from "./pages/Payment";
+import Gallery from "./pages/Gallery";
+import Settings from "./pages/Settings";
+import PropertyDetail from "./pages/PropertyDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -14,11 +23,18 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <div className="min-h-screen bg-background">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/property" element={<Property />} />
+            <Route path="/property/:id" element={<PropertyDetail />} />
+            <Route path="/payment" element={<Payment />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <TabBar />
+        </div>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

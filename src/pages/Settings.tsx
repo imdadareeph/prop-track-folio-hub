@@ -8,15 +8,17 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bell, Download, Moon, Sun, Upload, User } from "lucide-react";
+import { Bell, Download, Moon, Sun, Upload, User, LogIn, LogOut } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "@/components/ThemeProvider";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Settings = () => {
   const [settings, setSettings] = useState({ ...mockUserSettings });
   const { toast } = useToast();
   const { theme, setTheme } = useTheme();
+  const { user, loading, signInWithGoogle, signOut } = useAuth();
 
   const currencies = [
     { value: "AED", label: "UAE Dirham (AED)" },
@@ -47,6 +49,38 @@ const Settings = () => {
     });
   };
 
+  const handleSignIn = async () => {
+    try {
+      await signInWithGoogle();
+      toast({
+        title: "Signing in...",
+        description: "Redirecting to Google for authentication.",
+      });
+    } catch (error) {
+      toast({
+        title: "Sign in failed",
+        description: "Failed to sign in with Google. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Signed out",
+        description: "You have been successfully signed out.",
+      });
+    } catch (error) {
+      toast({
+        title: "Sign out failed",
+        description: "Failed to sign out. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="main-container animate-fade-in">
       <PageHeader 
@@ -56,39 +90,88 @@ const Settings = () => {
       />
 
       <div className="grid gap-6">
-        {/* Profile Settings */}
+        {/* Authentication Section */}
         <Card>
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
               <User className="h-5 w-5 text-propertyBlue" />
-              <CardTitle>Profile</CardTitle>
+              <CardTitle>Authentication</CardTitle>
             </div>
             <CardDescription>
-              Manage your personal information
+              Sign in to sync your data across devices
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-4">
-              <div className="grid gap-2">
-                <Label htmlFor="name">Name</Label>
-                <Input 
-                  id="name" 
-                  value={settings.name}
-                  onChange={(e) => setSettings({...settings, name: e.target.value})}
-                />
+            {loading ? (
+              <div className="text-center py-4">Loading...</div>
+            ) : user ? (
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  {user.user_metadata?.avatar_url && (
+                    <img 
+                      src={user.user_metadata.avatar_url} 
+                      alt="Profile" 
+                      className="w-10 h-10 rounded-full"
+                    />
+                  )}
+                  <div>
+                    <p className="font-medium">{user.user_metadata?.full_name || user.email}</p>
+                    <p className="text-sm text-slate-500">{user.email}</p>
+                  </div>
+                </div>
+                <Button variant="outline" onClick={handleSignOut}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Sign Out
+                </Button>
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input 
-                  id="email" 
-                  type="email"
-                  value={settings.email || ''}
-                  onChange={(e) => setSettings({...settings, email: e.target.value})}
-                />
+            ) : (
+              <div className="text-center py-4">
+                <p className="text-slate-600 mb-4">Sign in to access your personalized settings</p>
+                <Button onClick={handleSignIn}>
+                  <LogIn className="mr-2 h-4 w-4" />
+                  Sign in with Google
+                </Button>
               </div>
-            </div>
+            )}
           </CardContent>
         </Card>
+
+        {/* Profile Settings */}
+        {user && (
+          <Card>
+            <CardHeader className="pb-3">
+              <div className="flex items-center gap-2">
+                <User className="h-5 w-5 text-propertyBlue" />
+                <CardTitle>Profile</CardTitle>
+              </div>
+              <CardDescription>
+                Manage your personal information
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="name">Name</Label>
+                  <Input 
+                    id="name" 
+                    value={user.user_metadata?.full_name || settings.name}
+                    onChange={(e) => setSettings({...settings, name: e.target.value})}
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input 
+                    id="email" 
+                    type="email"
+                    value={user.email || ''}
+                    disabled
+                    className="bg-gray-50"
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Preferences Settings */}
         <Card>
@@ -217,9 +300,11 @@ const Settings = () => {
           </CardContent>
         </Card>
 
-        <div className="flex justify-end mt-4">
-          <Button onClick={handleSaveSettings}>Save Settings</Button>
-        </div>
+        {user && (
+          <div className="flex justify-end mt-4">
+            <Button onClick={handleSaveSettings}>Save Settings</Button>
+          </div>
+        )}
       </div>
     </div>
   );

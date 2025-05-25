@@ -1,3 +1,4 @@
+
 import PageHeader from "@/components/PageHeader";
 import StatsCard from "@/components/StatsCard";
 import ChartCard from "@/components/ChartCard";
@@ -6,9 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Building, DollarSign, TrendingUp, Plus } from "lucide-react";
 import { mockDashboardSummary, mockPayments } from "@/data/mockData";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Home = () => {
-  // Format currency
+  const { user, loading } = useAuth();
+
+  // Format currency in AED
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-AE', {
       style: 'currency',
@@ -35,11 +39,21 @@ const Home = () => {
     .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())
     .slice(0, 3);
 
+  if (loading) {
+    return (
+      <div className="main-container animate-fade-in">
+        <div className="flex items-center justify-center h-64">
+          <div>Loading...</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="main-container animate-fade-in">
       <PageHeader 
         title="Property Dashboard" 
-        subtitle="Welcome back! Here's an overview of your properties."
+        subtitle={user ? `Welcome back, ${user.user_metadata?.full_name || user.email}!` : "Welcome back! Here's an overview of your properties."}
         rightElement={
           <div className="flex items-center gap-2">
             <ThemeToggle />
@@ -49,6 +63,24 @@ const Home = () => {
           </div>
         }
       />
+
+      {user && (
+        <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+          <div className="flex items-center gap-3">
+            {user.user_metadata?.avatar_url && (
+              <img 
+                src={user.user_metadata.avatar_url} 
+                alt="Profile" 
+                className="w-12 h-12 rounded-full"
+              />
+            )}
+            <div>
+              <h3 className="font-semibold text-lg">{user.user_metadata?.full_name || 'User'}</h3>
+              <p className="text-sm text-slate-600 dark:text-slate-400">{user.email}</p>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <StatsCard 
@@ -62,7 +94,7 @@ const Home = () => {
           icon={<DollarSign className="h-5 w-5 text-propertyRed" />}
         />
         <StatsCard 
-          title="Rent Income" 
+          title="Rent Expense" 
           value={formatCurrency(mockDashboardSummary.totalRentIncome)}
           icon={<TrendingUp className="h-5 w-5 text-propertyGreen" />}
           change={{ value: 5.2, positive: true }}
